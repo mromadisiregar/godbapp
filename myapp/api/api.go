@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"github.com/gorilla/mux"
-	"github.com/mromadisiregar/godbapp/db"
+	"myapp/db"
 )
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
@@ -19,12 +19,12 @@ func respondWithJson(w http.ResponseWriter, code int, payload interface{}) {
 	w.Write(response)
 }
 
-func checkCounter(w http.ResponseWriter, r *http.Request) {
+func CheckCounter(w http.ResponseWriter, r *http.Request) {
 	num := db.CounterProc()
 	fmt.Fprintf(w, "Halaman telah dibuka sebanyak %+v kali.", num)
 }
 
-func createUser(w http.ResponseWriter, r *http.Request) {
+func CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	users := db.Users{}
 	
@@ -40,7 +40,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJson(w, http.StatusCreated, users)
 }
 
-func getUser(w http.ResponseWriter, r *http.Request) {
+func GetUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	users, err := db.GetOne(params["id"])
@@ -51,7 +51,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJson(w, http.StatusOK, users)
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	
 	if err := db.Remove(params["id"]); err != nil {
@@ -61,7 +61,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJson(w, http.StatusOK, map[string]string{"result": "success"})
 }
 
-func getAllUser(w http.ResponseWriter, r *http.Request) {
+func GetAllUser(w http.ResponseWriter, r *http.Request) {
 	all, err := db.GetAllUsers()
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
