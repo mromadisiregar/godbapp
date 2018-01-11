@@ -42,8 +42,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-
-	users, err := db.GetOne(params["id"])
+	id := params["id"]
+	users, err := db.GetOne(id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid ID")
 		return
@@ -53,8 +53,8 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	
-	if err := db.Remove(params["id"]); err != nil {
+	id := params["id"]
+	if err := db.Remove(id); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

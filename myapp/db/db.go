@@ -64,7 +64,7 @@ func GetAllUsers() ([]Users, error) {
 func GetOne(id string) (*Users, error) {
 	res := Users{}
 
-	if err := collectionUsers().Find(bson.M{"_id": id}).One(&res); err != nil {
+	if err := collectionUsers().FindId(bson.ObjectIdHex(id)).One(&res); err != nil {
 		return nil, err
 	}
 
@@ -80,7 +80,13 @@ func Insert(users Users) error {
 
 // Hapus user
 func Remove(id string) error {
-	return collectionUsers().Remove(bson.M{"_id": id})
+	res := Users{}
+
+	if err := collectionUsers().FindId(bson.ObjectIdHex(id)).One(&res); err != nil {
+		return err
+	}
+
+	return collectionUsers().Remove(&res)
 }
 
 // Proses counter
