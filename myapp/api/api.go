@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"github.com/gorilla/mux"
-	"../db"
+	"github.com/mromadisiregar/godbapp/db"
 )
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {

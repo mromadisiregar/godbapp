@@ -4,7 +4,7 @@ import (
 	"log"
 	"github.com/gorilla/mux"
 	"net/http"
-	"myapp/api"
+	"github.com/mromadisiregar/godbapp/api"
 )
 
 func main() {
